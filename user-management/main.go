@@ -20,6 +20,13 @@ func main() {
 			c.JSON(http.StatusOK, gin.H{"message": "registration successful"})
 		})
 
+		// Route for user authentication
+		router.POST("/login", func(c *gin.Context) {
+			// For now we are simulating user authentication
+			// After DB is created, we will validate credentials against the DB
+			c.JSON(http.StatusOK, gin.H{"message": "login successful"})
+		})
+
 	})
 	// Start the server on port 8080
 	router.Run(":8080")
