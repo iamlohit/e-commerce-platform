@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-management-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-management
+  template:
+    metadata:
+      labels:
+        app: user-management
+    spec:
+      containers:
+      - name: user-management
+        image: us-central1-docker.pkg.dev/sandbox-20230623-kx7bub/iamlohit-gcr/user-management:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
