@@ -1,17 +1,35 @@
-# Use the official Go image as a parent image
-FROM golang:1.22
+# Use the official Go image as a builder stage
+FROM golang:1.22 as builder
 
-# Set the working directory inside the container
+# Set the Current Working Directory inside the container
 WORKDIR /app
 
-# Copy the local code to the container's workspace
-ADD . /app
+# Set environment variables necessary for our image
+ENV GOOS=linux \
+    GOARCH=amd64 \
+    CGO_ENABLED=0  
+    # Disable CGO for static building if not using cgo in your app
+
+# Copy go mod and sum files
+COPY go.mod go.sum ./
 
 # Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
 RUN go mod download
 
+# Copy the rest of the application's source code
+COPY . .
+
 # Build the application
 RUN go build -o main .
 
-# Run the application
-CMD ["/app/main"]
+# Start a new stage from scratch for running the application
+FROM alpine:latest  
+
+# Set the working directory
+WORKDIR /root/
+
+# Copy the Pre-built binary file from the previous stage
+COPY --from=builder /app/main .
+
+# Command to run the executable
+CMD ["./main"]
