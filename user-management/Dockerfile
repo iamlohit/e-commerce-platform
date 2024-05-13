@@ -33,3 +33,4 @@ COPY --from=builder /app/main .
 
 # Command to run the executable
 CMD ["./main"]
+
