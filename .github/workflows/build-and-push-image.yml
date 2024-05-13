@@ -3,6 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     paths:
+      - 'user-management/**'
       - 'user-management/go.mod'
       - 'user-management/go.sum'
       - 'user-management/main.go'
