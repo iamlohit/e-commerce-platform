@@ -19,16 +19,18 @@ jobs:
         with:
            fetch-depth: 0
 
-      - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.3.0
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
         with:
-          version: 'latest'
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
 
       - name: Authenticate Docker with Google Artifact Registry
         run: |
-          gcloud auth configure-docker / us-central1-docker.pkg.dev
+          gcloud auth configure-docker us-central1-docker.pkg.dev
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
