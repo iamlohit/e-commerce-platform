@@ -1,5 +1,5 @@
-variable "credentials_file_path" {
-  description = "Path to the GCP credentials file"
+variable "credentials_json" {
+  description = "The GCP credentials JSON"
   type        = string
 }
 
