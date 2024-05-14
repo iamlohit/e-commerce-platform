@@ -33,7 +33,7 @@ jobs:
       - name: Extract project ID
         id: extract_project_id
         run: |
-          echo "PROJECT_ID=$(echo ${{ secrets.GCP_CREDENTIALS }} | jq -r '.project_id')" >> $GITHUB_ENV
+          echo "PROJECT_ID=$(echo ${{ secrets.GCP_CREDENTIALS }} | jq -r '.gcp_project')" >> $GITHUB_ENV
 
       - name: Authenticate Docker with Google Artifact Registry
         run: gcloud auth configure-docker us-central1-docker.pkg.dev
