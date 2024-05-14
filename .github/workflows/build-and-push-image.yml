@@ -17,7 +17,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-           fetch-depth: 0
+          fetch-depth: 0
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
@@ -27,14 +27,6 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
-      - name: Install jq
-        run: sudo apt-get install -y jq
-
-      - name: Extract project ID
-        id: extract_project_id
-        run: |
-          echo "PROJECT_ID=$(echo ${{ secrets.GCP_CREDENTIALS }} | jq -r '.gcp_project')" >> $GITHUB_ENV
-
       - name: Authenticate Docker with Google Artifact Registry
         run: gcloud auth configure-docker us-central1-docker.pkg.dev
 
@@ -43,7 +35,7 @@ jobs:
 
       - name: Build and Push Docker Image
         env:
-          PROJECT_ID: ${{ env.PROJECT_ID }}
+          PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           REGISTRY: us-central1-docker.pkg.dev
           IMAGE_NAME: iamlohit-gcr/user-management
           TAG: latest
