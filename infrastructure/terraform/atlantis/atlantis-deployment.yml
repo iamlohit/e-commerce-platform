@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: atlantis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: atlantis
+  template:
+    metadata:
+      labels:
+        app: atlantis
+    spec:
+      containers:
+      - name: atlantis
+        image: runatlantis/atlantis:latest
+        env:
+          - name: ATLANTIS_REPO_WHITELIST
+            value: github.com/your-org/your-repo
+          - name: ATLANTIS_GH_USER
+            value: github-bot-username
+          - name: ATLANTIS_GH_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: atlantis-secrets
+                key: gh_token
+          - name: ATLANTIS_GH_WEBHOOK_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: atlantis-secrets
+                key: webhook_secret
+        ports:
+          - containerPort: 4141
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
