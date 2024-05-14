@@ -20,7 +20,6 @@ jobs:
            fetch-depth: 0
 
       - name: Authenticate to Google Cloud
-        id: auth
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIALS }}
@@ -28,9 +27,13 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
       - name: Extract project ID
         id: extract_project_id
-        run: echo "PROJECT_ID=$(echo ${{ secrets.GCP_CREDENTIALS }} | jq -r '.project_id')" >> $GITHUB_ENV
+        run: |
+          echo "PROJECT_ID=$(echo ${{ secrets.GCP_CREDENTIALS }} | jq -r '.project_id')" >> $GITHUB_ENV
 
       - name: Authenticate Docker with Google Artifact Registry
         run: gcloud auth configure-docker us-central1-docker.pkg.dev
