@@ -1,0 +1,19 @@
+# Terraform files
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfvars
+.terraform/
+.terraform.lock.hcl
+
+# Terragrunt cache
+.terragrunt-cache/
+
+# Atlantis lock files
+atlantis.yaml.lock
+
+# IDE and OS files
+*.DS_Store
+.vscode/
+.idea/
+*.swp
