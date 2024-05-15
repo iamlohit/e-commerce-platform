@@ -1,5 +1,9 @@
 terraform {
   source = "../../modules/gke"
+  backend "gcs" {
+    bucket = "staging-terraform-state-bucket"
+    prefix = "terraform/state"
+  }
 }
 
 inputs = {
@@ -7,7 +11,7 @@ inputs = {
   project_id       = get_env("GCP_PROJECT_ID", "")
   region           = get_env("REGION", "")
   zone             = get_env("ZONE", "")
-  cluster_name     = "prod-cluster"
-  network_name     = "default" # Replace with your VPC network name if different
-  subnetwork_name  = "default" # Replace with your subnetwork name if different
+  cluster_name     = "staging-cluster"
+  network_name     = "staging-vpc-network"
+  subnetwork_name  = "staging-subnetwork"
 }
